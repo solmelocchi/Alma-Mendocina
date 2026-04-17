@@ -56,11 +56,7 @@ function setTipoByKey(key) {
   const i = keys.indexOf(key); if(i>=0) { setTipo(tabs[i],key); document.getElementById('tipos').scrollIntoView({behavior:'smooth'}); }
 }
 function onTipoChange() { const v=document.getElementById('sTipo').value; if(v) setTipoByKey(v); }
-function doSearch() {
-  const tipo=document.getElementById('sTipo').value;
-  if(tipo) { setTipoByKey(tipo); document.getElementById('tipos').scrollIntoView({behavior:'smooth'}); }
-  else document.getElementById('tipos').scrollIntoView({behavior:'smooth'});
-}
+// doSearch() vive en js/search.js
 
 // ALOJAMIENTOS
 let alojP=2, alojTipo='todos';
