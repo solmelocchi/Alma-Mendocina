@@ -265,6 +265,23 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
 .m-soc{display:flex;gap:.7rem;}
 .m-soc-btn{flex:1;padding:.75rem;border:1px solid var(--arena);background:white;font-family:'Josefin Sans',sans-serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s;color:var(--humo);}
 .m-soc-btn:hover{border-color:var(--dorado);}
+.m-err{color:var(--vino);font-size:.78rem;font-style:italic;margin-top:.35rem;display:none;}
+.m-err.show{display:block;}
+.m-field input.err{border-color:var(--vino);}
+.nav-user{position:relative;display:flex;align-items:center;gap:.5rem;padding:.45rem .95rem;background:transparent;border:1px solid var(--dorado);color:var(--dorado);font-family:'Josefin Sans',sans-serif;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:all .3s;}
+.nav-user:hover{background:var(--dorado);color:var(--carbon);}
+.nav-user-av{width:22px;height:22px;border-radius:50%;background:var(--dorado);color:var(--carbon);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:.7rem;}
+.nav-user:hover .nav-user-av{background:var(--carbon);color:var(--dorado);}
+.nav-drop{position:absolute;top:calc(100% + .5rem);right:0;background:var(--crema);border:1px solid var(--dorado);min-width:220px;padding:.5rem 0;display:none;box-shadow:0 20px 50px rgba(0,0,0,.3);}
+.nav-drop.open{display:block;}
+.nav-drop-hdr{padding:.8rem 1.2rem;border-bottom:1px solid rgba(201,168,76,.3);}
+.nav-drop-name{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--carbon);}
+.nav-drop-mail{font-size:.75rem;color:var(--humo);font-style:italic;}
+.nav-drop a{display:block;padding:.65rem 1.2rem;font-family:'Cormorant Garamond',serif;font-size:.9rem;color:var(--carbon);cursor:pointer;transition:background .3s;}
+.nav-drop a:hover{background:rgba(201,168,76,.15);color:var(--tierra);}
+.nav-drop-promo{display:flex;align-items:center;justify-content:space-between;padding:.55rem 1.2rem;font-size:.78rem;color:var(--humo);border-top:1px solid rgba(201,168,76,.2);}
+.nav-drop-promo input{accent-color:var(--vino);cursor:pointer;}
+.nav-drop-logout{border-top:1px solid rgba(201,168,76,.3);color:var(--vino) !important;font-weight:500;}
 /* DETAIL PAGE */
 .detail-page{position:fixed;inset:0;z-index:1500;background:var(--crema);overflow-y:auto;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);}
 .detail-page.open{transform:translateX(0);}
@@ -329,7 +346,18 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
       <button class="lang-btn" onclick="setLang('en',this)">EN</button>
       <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
     </div>
-    <button class="nav-cta" onclick="openModal()">Crear cuenta</button>
+    <button class="nav-cta" id="navCta" onclick="openModal()">Crear cuenta</button>
+    <div class="nav-user" id="navUser" style="display:none" onclick="toggleDrop(event)">
+      <div class="nav-user-av" id="navUserAv">M</div>
+      <span id="navUserName">Hola</span>
+      <div class="nav-drop" id="navDrop" onclick="event.stopPropagation()">
+        <div class="nav-drop-hdr"><div class="nav-drop-name" id="dropName"></div><div class="nav-drop-mail" id="dropMail"></div></div>
+        <a onclick="scrollToId('recomendaciones');closeDrop()">Mis resenas</a>
+        <a onclick="scrollToId('planificador');closeDrop()">Planifica tu viaje</a>
+        <label class="nav-drop-promo"><span>Recibir promos</span><input type="checkbox" id="dropPromo" onchange="togglePromo()"></label>
+        <a class="nav-drop-logout" onclick="logout()">Cerrar sesion</a>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -589,7 +617,7 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
   <div class="reg-content fade-in">
     <h2 class="reg-title">Crea tu cuenta y<br>guarda tus <em>experiencias</em></h2>
     <p class="reg-sub">Itinerarios personalizados, favoritos y promos exclusivas para miembros</p>
-    <div class="reg-form"><input class="reg-input" type="email" placeholder="Tu email..."><button class="reg-btn" onclick="openModal()">Empezar gratis</button></div>
+    <div class="reg-form"><input class="reg-input" type="email" id="regQuickEmail" placeholder="Tu email..."><button class="reg-btn" onclick="quickReg()">Empezar gratis</button></div>
     <p class="reg-note">Sin tarjeta &middot; Sin spam &middot; 100% gratis</p>
   </div>
 </section>
@@ -616,16 +644,17 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
     <p class="m-lbl">Tu cuenta</p><h3 class="m-title">Bienvenido</h3><p class="m-sub">Accede a tu experiencia personalizada</p>
     <div class="m-tabs"><button class="m-tab active" onclick="switchMTab(this,'in')">Ingresar</button><button class="m-tab" onclick="switchMTab(this,'up')">Registrarse</button></div>
     <div id="mIn">
-      <div class="m-field"><label>Email</label><input type="email" placeholder="tu@email.com"></div>
-      <div class="m-field"><label>Contrasena</label><input type="password" placeholder="........"></div>
-      <button class="m-submit" onclick="showToast('Bienvenido de vuelta!')">Ingresar</button>
+      <div class="m-field"><label>Email</label><input type="email" id="liEmail" placeholder="tu@email.com"><div class="m-err" id="liEmailErr">Ingresa un email valido</div></div>
+      <div class="m-field"><label>Contrasena</label><input type="password" id="liPass" placeholder="........"><div class="m-err" id="liPassErr">Email o contrasena incorrectos</div></div>
+      <button class="m-submit" onclick="submitLogin()">Ingresar</button>
       <div class="m-or">o</div>
       <div class="m-soc"><button class="m-soc-btn">Google</button><button class="m-soc-btn">Facebook</button></div>
     </div>
     <div id="mUp" style="display:none">
-      <div class="m-field"><label>Nombre</label><input type="text" placeholder="Tu nombre"></div>
-      <div class="m-field"><label>Email</label><input type="email" placeholder="tu@email.com"></div>
-      <div class="m-field"><label>Contrasena</label><input type="password" placeholder="Minimo 8 caracteres"></div>
+      <div class="m-field"><label>Nombre</label><input type="text" id="upName" placeholder="Tu nombre"><div class="m-err" id="upNameErr">Contanos tu nombre</div></div>
+      <div class="m-field"><label>Email</label><input type="email" id="upEmail" placeholder="tu@email.com"><div class="m-err" id="upEmailErr">Email invalido o ya registrado</div></div>
+      <div class="m-field"><label>Contrasena</label><input type="password" id="upPass" placeholder="Minimo 8 caracteres"><div class="m-err" id="upPassErr">Minimo 8 caracteres</div></div>
+      <div class="m-field"><label>Confirmar contrasena</label><input type="password" id="upPass2" placeholder="Repeti tu contrasena"><div class="m-err" id="upPass2Err">Las contrasenas no coinciden</div></div>
       <label class="m-promo"><input type="checkbox" id="promoChk" checked><div class="m-promo-t"><strong>&#127873; Quiero promos exclusivas</strong><span>Ofertas en bodegas y eventos mendocinos. Sin spam.</span></div></label>
       <button class="m-submit" onclick="submitReg()">Crear cuenta gratis</button>
       <div class="m-or">o</div>
@@ -759,20 +788,111 @@ function chQty(k,d){ qtys[k]=Math.max(1,qtys[k]+d); document.getElementById(k===
 function setFiltro(btn){ document.querySelectorAll('.filtro').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function setRF(btn){ document.querySelectorAll('.rfb').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 
-// REVIEWS
+// AUTH - persistencia real con localStorage
+const USERS_KEY='am_users', SESS_KEY='am_session', REV_KEY='am_reviews';
+function getUsers(){ try{return JSON.parse(localStorage.getItem(USERS_KEY))||{};}catch(e){return {};} }
+function saveUsers(u){ localStorage.setItem(USERS_KEY,JSON.stringify(u)); }
+function getSession(){ try{return JSON.parse(localStorage.getItem(SESS_KEY));}catch(e){return null;} }
+function setSession(email){ localStorage.setItem(SESS_KEY,JSON.stringify({email,ts:Date.now()})); }
+function clearSession(){ localStorage.removeItem(SESS_KEY); }
+function currentUser(){ const s=getSession(); if(!s) return null; const u=getUsers()[s.email]; return u?{...u,email:s.email}:null; }
+// hash basico (no es seguridad real pero evita guardar plain text)
+function hash(s){ let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; } return String(h); }
+function isEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function showErr(id,show){ const e=document.getElementById(id); if(e) e.classList.toggle('show',!!show); }
+function clearErrs(ids){ ids.forEach(id=>showErr(id,false)); }
+
+function submitLogin(){
+  const email=document.getElementById('liEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('liPass').value;
+  clearErrs(['liEmailErr','liPassErr']);
+  if(!isEmail(email)){ showErr('liEmailErr',true); return; }
+  const users=getUsers(), u=users[email];
+  if(!u||u.pass!==hash(pass)){ showErr('liPassErr',true); return; }
+  setSession(email); refreshAuthUI(); closeModal(); showToast('Hola '+u.name+'! Bienvenido/a de vuelta');
+  document.getElementById('liEmail').value=''; document.getElementById('liPass').value='';
+}
+function submitReg(){
+  const name=document.getElementById('upName').value.trim();
+  const email=document.getElementById('upEmail').value.trim().toLowerCase();
+  const pass=document.getElementById('upPass').value;
+  const pass2=document.getElementById('upPass2').value;
+  const promo=document.getElementById('promoChk').checked;
+  clearErrs(['upNameErr','upEmailErr','upPassErr','upPass2Err']);
+  let ok=true;
+  if(!name){ showErr('upNameErr',true); ok=false; }
+  const users=getUsers();
+  if(!isEmail(email)||users[email]){ showErr('upEmailErr',true); ok=false; }
+  if(pass.length<8){ showErr('upPassErr',true); ok=false; }
+  if(pass!==pass2){ showErr('upPass2Err',true); ok=false; }
+  if(!ok) return;
+  users[email]={name,pass:hash(pass),promo,created:Date.now()}; saveUsers(users);
+  setSession(email); refreshAuthUI(); closeModal();
+  showToast(promo?'Cuenta creada! Te llegaran promos':'Bienvenido/a a Alma Mendocina!');
+  ['upName','upEmail','upPass','upPass2'].forEach(id=>document.getElementById(id).value='');
+}
+function quickReg(){
+  const email=document.getElementById('regQuickEmail').value.trim().toLowerCase();
+  if(!isEmail(email)){ showToast('Ingresa un email valido'); return; }
+  openModal(); switchMTabByKey('up');
+  document.getElementById('upEmail').value=email;
+  setTimeout(()=>document.getElementById('upName').focus(),300);
+}
+function logout(){ clearSession(); closeDrop(); refreshAuthUI(); showToast('Sesion cerrada'); }
+function togglePromo(){
+  const u=currentUser(); if(!u) return;
+  const users=getUsers(); users[u.email].promo=document.getElementById('dropPromo').checked; saveUsers(users);
+  showToast(users[u.email].promo?'Recibiras promos':'Ya no recibiras promos');
+}
+function toggleDrop(e){ e.stopPropagation(); document.getElementById('navDrop').classList.toggle('open'); }
+function closeDrop(){ document.getElementById('navDrop').classList.remove('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('#navUser')) closeDrop(); });
+function scrollToId(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+function refreshAuthUI(){
+  const u=currentUser(); const cta=document.getElementById('navCta'), nu=document.getElementById('navUser');
+  if(u){ cta.style.display='none'; nu.style.display='flex';
+    document.getElementById('navUserAv').textContent=u.name[0].toUpperCase();
+    document.getElementById('navUserName').textContent=u.name.split(' ')[0];
+    document.getElementById('dropName').textContent=u.name;
+    document.getElementById('dropMail').textContent=u.email;
+    document.getElementById('dropPromo').checked=!!u.promo;
+    // prefill review form
+    const rn=document.getElementById('rfNombre'); if(rn&&!rn.value) rn.value=u.name;
+  } else { cta.style.display=''; nu.style.display='none'; }
+}
+
+// REVIEWS con persistencia
 let selStar=0;
-function toggleRevForm(){ const f=document.getElementById('revForm'); f.classList.toggle('open'); if(f.classList.contains('open')) setTimeout(()=>f.scrollIntoView({behavior:'smooth',block:'nearest'}),100); }
+function defaultRevs(){ return [
+  {n:'Martina Lopez',d:'Buenos Aires',l:'Bodega Zuccardi',s:5,t:'Una experiencia increible. El tour y la degustacion superaron todo lo que esperaba. El Malbec del Valle de Uco es otro nivel.'},
+  {n:'Carlos Perez',d:'Cordoba',l:'Cerro Aconcagua',s:5,t:'El trekking de acercamiento es espectacular. Las vistas son unicas. Muy recomendable ir con guia local mendocino.'},
+  {n:'Sofia Ramirez',d:'Rosario',l:'Ruta del Vino, Maipu',s:5,t:'Viaje con mis hijos y fue perfecto. Los chicos adoraron la bici y yo pude disfrutar las bodegas. Sin auto y sin complicaciones.'},
+  {n:'Joao Silva',d:'Brasil',l:'Valle de Uco',s:5,t:'Vim sozinho e foi incrivel. Conheci outros viajeiros no tour compartilhado. Mendoza e perfeita para viajar solo.'}
+]; }
+function getRevs(){ try{const r=JSON.parse(localStorage.getItem(REV_KEY)); return r||defaultRevs();}catch(e){return defaultRevs();} }
+function saveRevs(r){ localStorage.setItem(REV_KEY,JSON.stringify(r)); }
+function renderRevs(){
+  const grid=document.getElementById('revsGrid'); if(!grid) return;
+  grid.innerHTML=getRevs().map((r,i)=>'<div class="rev-card'+(r.isNew?' new':'')+'"><div class="rv-top"><div class="rv-av">'+r.n[0].toUpperCase()+'</div><div><div class="rv-name">'+escHtml(r.n)+'</div><div class="rv-from">'+escHtml(r.d||'Mendoza')+'</div></div><div class="rv-stars">'+'&#9733;'.repeat(r.s)+'&#9734;'.repeat(5-r.s)+'</div></div><div class="rv-place">'+escHtml(r.l)+'</div><p class="rv-text">"'+escHtml(r.t)+'"</p></div>').join('');
+}
+function escHtml(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function toggleRevForm(){
+  if(!currentUser()){ openModal(); showToast('Crea tu cuenta para dejar tu resena'); return; }
+  const f=document.getElementById('revForm'); f.classList.toggle('open');
+  if(f.classList.contains('open')){ refreshAuthUI(); setTimeout(()=>f.scrollIntoView({behavior:'smooth',block:'nearest'}),100); }
+}
 function setStar(n){ selStar=n; document.querySelectorAll('.s-opt').forEach((s,i)=>s.classList.toggle('on',i<n)); }
 function submitRev(){
   const n=document.getElementById('rfNombre').value.trim(),d=document.getElementById('rfDe').value.trim(),l=document.getElementById('rfLugar').value.trim(),t=document.getElementById('rfText').value.trim();
   if(!n||!l||!t||!selStar){ showToast('Completa todos los campos'); return; }
-  const c=document.createElement('div'); c.className='rev-card new';
-  c.innerHTML='<div class="rv-top"><div class="rv-av">'+n[0].toUpperCase()+'</div><div><div class="rv-name">'+n+'</div><div class="rv-from">'+(d||'Mendoza')+'</div></div><div class="rv-stars">'+'&#9733;'.repeat(selStar)+'&#9734;'.repeat(5-selStar)+'</div></div><div class="rv-place">'+l+'</div><p class="rv-text">\"'+t+'\"</p>';
-  document.getElementById('revsGrid').insertBefore(c, document.getElementById('revsGrid').firstChild);
+  const revs=getRevs(); revs.unshift({n,d,l,s:selStar,t,ts:Date.now(),isNew:true}); saveRevs(revs); renderRevs();
   document.getElementById('revForm').classList.remove('open');
-  ['rfNombre','rfDe','rfLugar','rfText'].forEach(id=>document.getElementById(id).value='');
+  ['rfDe','rfLugar','rfText'].forEach(id=>document.getElementById(id).value='');
   selStar=0; document.querySelectorAll('.s-opt').forEach(s=>s.classList.remove('on'));
   showToast('Resena publicada! Gracias');
+  setTimeout(()=>{ const r=getRevs(); r.forEach(x=>delete x.isNew); saveRevs(r); },4000);
 }
 
 // MODAL
@@ -780,7 +900,7 @@ function openModal(){ document.getElementById('mOverlay').classList.add('open');
 function closeModal(){ document.getElementById('mOverlay').classList.remove('open'); }
 function closeMOut(e){ if(e.target.id==='mOverlay') closeModal(); }
 function switchMTab(btn,t){ document.querySelectorAll('.m-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('mIn').style.display=t==='in'?'block':'none'; document.getElementById('mUp').style.display=t==='up'?'block':'none'; }
-function submitReg(){ showToast(document.getElementById('promoChk').checked?'Cuenta creada! Te llegaran promos':'Bienvenido/a a Alma Mendocina!'); closeModal(); }
+function switchMTabByKey(t){ const tabs=document.querySelectorAll('.m-tab'); switchMTab(tabs[t==='up'?1:0],t); }
 
 // CHAT IA
 const BPLANS = {
@@ -803,6 +923,10 @@ function showToast(m){ const t=document.getElementById('toast'); t.textContent=m
 // SCROLL ANIM
 const obs=new IntersectionObserver(e=>e.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); }),{threshold:.1});
 document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// INIT
+renderRevs();
+refreshAuthUI();
 </script>
 </body>
 </html>
