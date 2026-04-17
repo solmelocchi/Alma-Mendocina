@@ -71,6 +71,18 @@
   <div class="hero-scroll"><span>Explora</span><div class="hero-scroll-line"></div></div>
 </section>
 
+<!-- RESULTADOS DE BUSQUEDA -->
+<section id="resultados" style="display:none;background:var(--nieve)">
+  <div class="res-top">
+    <div>
+      <p class="s-label">Resultados</p>
+      <h2 class="s-title"><span id="resCount">0</span> lugares para tu viaje</h2>
+    </div>
+    <button class="res-clear" onclick="clearSearch()">Limpiar filtros</button>
+  </div>
+  <div id="resGrid" class="tipo-cards"></div>
+</section>
+
 <!-- EXPERIENCIAS -->
 <section id="experiencias">
   <div class="fade-in"><p class="s-label">Lo que te espera</p><h2 class="s-title">Cada rincon,<br>una experiencia unica</h2><p class="s-body">Desde las bodegas mas exclusivas del Valle de Uco hasta los picos mas altos de los Andes.</p></div>
@@ -382,5 +394,6 @@
 <script src="js/auth.js"></script>
 <script src="js/chat.js"></script>
 <script src="js/app.js"></script>
+<script src="js/search.js"></script>
 </body>
 </html>

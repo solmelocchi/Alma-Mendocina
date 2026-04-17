@@ -321,3 +321,9 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
 @keyframes sBounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes tdot{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-4px);opacity:1}}
+/* RESULTADOS */
+#resultados .res-top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:2.5rem;}
+.res-clear{font-family:'Josefin Sans',sans-serif;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;padding:.65rem 1.3rem;border:1px solid var(--vino);background:transparent;color:var(--vino);cursor:pointer;transition:all .3s;}
+.res-clear:hover{background:var(--vino);color:white;}
+.res-empty{font-style:italic;color:var(--humo);font-size:1rem;padding:3rem 1rem;text-align:center;grid-column:1/-1;}
+#resultados .tipo-cards{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}
