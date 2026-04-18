@@ -48,7 +48,10 @@ function renderResults(results) {
   }
   grid.innerHTML = results.map(e => {
     const shortDesc = e.desc.length > 110 ? e.desc.slice(0,110)+'...' : e.desc;
-    return '<div class="place-card" onclick="openPlace(\''+e.id+'\')">'
+    return '<div class="place-card" data-place-id="'+e.id+'"'
+      + ' onmouseenter="highlightPin(\''+e.id+'\',true)"'
+      + ' onmouseleave="highlightPin(\''+e.id+'\',false)"'
+      + ' onclick="openPlace(\''+e.id+'\')">'
       + '<div class="pc-img" style="background-image:url('+JSON.stringify(e.img)+')">'
       +   '<div class="pc-img-ov"><div class="pc-cat">'+escHtml(e.cat)+'</div></div>'
       + '</div>'
@@ -62,6 +65,7 @@ function renderResults(results) {
       + '</div>'
       + '</div>';
   }).join('');
+  if (typeof renderPins === 'function') renderPins(results);
 }
 
 function inferTipoFromText(q) {
