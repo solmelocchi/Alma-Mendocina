@@ -25,9 +25,9 @@ function goHome() { closeDetail(); window.scrollTo({top:0,behavior:'smooth'}); }
 
 // TRANSLATIONS
 const TR = {
-  es:{hero:'Bienvenido a Mendoza', sub:'Vino, montanas y experiencias que no olvidaras', llegada:'Llegada', salida:'Salida', que:'Que queres hacer', pers:'Personas', dias:'Dias', tipo:'Tipo de viaje', sbtn:'Buscar experiencias'},
-  en:{hero:'Welcome to Mendoza', sub:'Wine, mountains and unforgettable experiences', llegada:'Arrival', salida:'Departure', que:'What do you want to do', pers:'People', dias:'Days', tipo:'Trip type', sbtn:'Search experiences'},
-  pt:{hero:'Bem-vindo a Mendoza', sub:'Vinho, montanhas e experiencias incriveis', llegada:'Chegada', salida:'Saida', que:'O que voce quer fazer', pers:'Pessoas', dias:'Dias', tipo:'Tipo de viagem', sbtn:'Buscar experiencias'},
+  es:{hero:'Bienvenido a Mendoza', sub:'Vino, montanas y experiencias que no olvidaras', llegada:'Llegada', salida:'Salida', pers:'Personas', dias:'Dias', tipo:'Tipo de viaje', sbtn:'Buscar experiencias'},
+  en:{hero:'Welcome to Mendoza', sub:'Wine, mountains and unforgettable experiences', llegada:'Arrival', salida:'Departure', pers:'People', dias:'Days', tipo:'Trip type', sbtn:'Search experiences'},
+  pt:{hero:'Bem-vindo a Mendoza', sub:'Vinho, montanhas e experiencias incriveis', llegada:'Chegada', salida:'Saida', pers:'Pessoas', dias:'Dias', tipo:'Tipo de viagem', sbtn:'Buscar experiencias'},
 };
 function setLang(l, btn) {
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
@@ -36,7 +36,6 @@ function setLang(l, btn) {
   document.getElementById('t-hero-sub').textContent = t.sub;
   document.getElementById('t-llegada').textContent = t.llegada;
   document.getElementById('t-salida').textContent = t.salida;
-  document.getElementById('t-que').textContent = t.que;
   document.getElementById('t-pers').textContent = t.pers;
   document.getElementById('t-dias').textContent = t.dias;
   document.getElementById('t-tipo').textContent = t.tipo;

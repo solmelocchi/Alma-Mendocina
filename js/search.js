@@ -68,24 +68,12 @@ function renderResults(results) {
   if (typeof renderPins === 'function') renderPins(results);
 }
 
-function inferTipoFromText(q) {
-  const tipos = ['despedida','familia','pareja','amigos','corporativo'];
-  const n = normStr(q);
-  if (n.includes('solo') || n.includes('sola')) return 'solo';
-  for (const t of tipos) if (n.includes(t)) return t;
-  return '';
-}
-
 function doSearch() {
   const state = {
     tipo: document.getElementById('sTipo').value,
     personas: parseInt(document.getElementById('qPersonas').textContent, 10),
-    q: document.getElementById('sQue').value
+    q: ''
   };
-  if (!state.tipo && state.q) {
-    const inferred = inferTipoFromText(state.q);
-    if (inferred) state.tipo = inferred;
-  }
   const results = applyFilters(state);
   renderResults(results);
   const sec = document.getElementById('resultados');
@@ -94,7 +82,6 @@ function doSearch() {
 }
 
 function clearSearch() {
-  document.getElementById('sQue').value = '';
   document.getElementById('sTipo').value = '';
   document.getElementById('resultados').style.display = 'none';
   window.scrollTo({top:0, behavior:'smooth'});
