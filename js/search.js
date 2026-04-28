@@ -21,11 +21,9 @@ function getSearchIndex() { return SEARCH_INDEX || (SEARCH_INDEX = buildSearchIn
 
 function applyFilters(state) {
   const idx = getSearchIndex();
-  const tokens = normStr(state.q).split(/\s+/).filter(Boolean);
   return idx.filter(e => {
     if (state.tipo && !e.tiposViaje.includes(state.tipo)) return false;
     if (state.personas != null && (state.personas < e.minPers || state.personas > e.maxPers)) return false;
-    if (tokens.length && !tokens.every(t => e.haystack.includes(t))) return false;
     return true;
   }).sort((a,b) => a.precioDesde - b.precioDesde);
 }
@@ -68,34 +66,24 @@ function renderResults(results) {
   if (typeof renderPins === 'function') renderPins(results);
 }
 
-function inferTipoFromText(q) {
-  const tipos = ['despedida','familia','pareja','amigos','corporativo'];
-  const n = normStr(q);
-  if (n.includes('solo') || n.includes('sola')) return 'solo';
-  for (const t of tipos) if (n.includes(t)) return t;
-  return '';
-}
-
 function doSearch() {
   const state = {
     tipo: document.getElementById('sTipo').value,
     personas: parseInt(document.getElementById('qPersonas').textContent, 10),
-    q: document.getElementById('sQue').value
   };
-  if (!state.tipo && state.q) {
-    const inferred = inferTipoFromText(state.q);
-    if (inferred) state.tipo = inferred;
-  }
   const results = applyFilters(state);
   renderResults(results);
-  const sec = document.getElementById('resultados');
-  sec.style.display = 'block';
-  sec.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('resultados').scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function clearSearch() {
-  document.getElementById('sQue').value = '';
   document.getElementById('sTipo').value = '';
-  document.getElementById('resultados').style.display = 'none';
-  window.scrollTo({top:0, behavior:'smooth'});
+  const results = applyFilters({ tipo: '', personas: 2 });
+  renderResults(results);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const results = applyFilters({ tipo: '', personas: 2 });
+  renderResults(results);
+  if (typeof ensureMap === 'function') ensureMap();
+});
