@@ -29,7 +29,7 @@
       <span id="navUserName">Hola</span>
       <div class="nav-drop" id="navDrop" onclick="event.stopPropagation()">
         <div class="nav-drop-hdr"><div class="nav-drop-name" id="dropName"></div><div class="nav-drop-mail" id="dropMail"></div></div>
-        <a onclick="scrollToId('recomendaciones');closeDrop()">Mis resenas</a>
+        <a onclick="openMisExp();closeDrop()">Mis experiencias</a>
         <a onclick="scrollToId('planificador');closeDrop()">Planifica tu viaje</a>
         <label class="nav-drop-promo"><span>Recibir promos</span><input type="checkbox" id="dropPromo" onchange="togglePromo()"></label>
         <a class="nav-drop-logout" onclick="logout()">Cerrar sesion</a>
@@ -43,12 +43,11 @@
   <div class="hero-content">
     <p class="hero-eyebrow" id="t-hero-eyebrow">Bienvenido a Mendoza</p>
     <h1 class="hero-title">Descubri el<br><em>alma</em> de<br>Mendoza</h1>
-    <p class="hero-subtitle" id="t-hero-sub">Vino, montanas y experiencias que no olvidaras</p>
+    <p class="hero-subtitle" id="t-hero-sub">Vino, montañas y experiencias que no olvidaras</p>
     <div class="hero-search-card">
       <div class="search-row">
         <div class="search-field-wrap"><div class="s-lbl" id="t-llegada">Llegada</div><input class="s-inp" type="date" id="sLlegada"></div>
         <div class="search-field-wrap"><div class="s-lbl" id="t-salida">Salida</div><input class="s-inp" type="date" id="sSalida"></div>
-        <div class="search-field-wrap"><div class="s-lbl" id="t-que">Que queres hacer</div><input class="s-inp" type="text" id="sQue" placeholder="Bodegas, senderismo..."></div>
       </div>
       <div class="search-bottom">
         <div class="search-extras">
@@ -73,7 +72,7 @@
 </section>
 
 <!-- RESULTADOS DE BUSQUEDA -->
-<section id="resultados" class="view-list" style="display:none;background:var(--nieve)">
+<section id="resultados" class="view-list" style="background:var(--nieve)">
   <div class="res-top">
     <div>
       <p class="s-label">Resultados</p>
@@ -98,7 +97,7 @@
   <div class="fade-in"><p class="s-label">Lo que te espera</p><h2 class="s-title">Cada rincon,<br>una experiencia unica</h2><p class="s-body">Desde las bodegas mas exclusivas del Valle de Uco hasta los picos mas altos de los Andes.</p></div>
   <div class="cats-grid fade-in" style="transition-delay:.2s">
     <div class="cat-card" onclick="openPlace('zuccardi')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800')"></div><div class="cat-overlay"><div class="cat-icon">&#127863;</div><div class="cat-name">Bodegas y Vino</div><div class="cat-count">47 experiencias</div></div></div>
-    <div class="cat-card" onclick="openPlace('aconcagua')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127956;</div><div class="cat-name">Montana y Aventura</div><div class="cat-count">32 actividades</div></div></div>
+    <div class="cat-card" onclick="openPlace('aconcagua')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127956;</div><div class="cat-name">Montaña y Aventura</div><div class="cat-count">32 actividades</div></div></div>
     <div class="cat-card" onclick="openPlace('enemigo')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127869;</div><div class="cat-name">Gastronomia</div><div class="cat-count">58 restaurantes</div></div></div>
     <div class="cat-card" onclick="openPlace('independencia')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127963;</div><div class="cat-name">Cultura</div><div class="cat-count">24 lugares</div></div></div>
     <div class="cat-card" onclick="openPlace('cavas')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127968;</div><div class="cat-name">Alojamientos</div><div class="cat-count">63 opciones</div></div></div>
@@ -183,6 +182,7 @@
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('blend')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600')"><div class="pc-img-ov"><div class="pc-cat">Team Building</div></div></div><div class="pc-body"><div class="pc-name">Blend tu Malbec</div><p class="pc-desc">Cada equipo crea su propio blend de Malbec. Se llevan las botellas con su etiqueta.</p><div class="pc-footer"><div class="pc-price">A consultar</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('achaval')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"><div class="pc-img-ov"><div class="pc-cat">Venue exclusivo</div></div></div><div class="pc-body"><div class="pc-name">Achaval Ferrer Evento</div><p class="pc-desc">Bodega premium como venue hasta 200 personas con catering gourmet.</p><div class="pc-footer"><div class="pc-price">A consultar</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('corppack')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"><div class="pc-img-ov"><div class="pc-cat">Logistica total</div></div></div><div class="pc-body"><div class="pc-name">Paquete corporativo completo</div><p class="pc-desc">Transfer, alojamiento, actividades y catering. Coordinamos todo sin intermediarios.</p><div class="pc-footer"><div class="pc-price">A consultar</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
 </section>
+
 <!-- ALOJAMIENTOS -->
 <section id="alojamientos">
   <div class="fade-in"><p class="s-label">Donde quedarse</p><h2 class="s-title">Alojamientos<br>para cada viajero</h2><p class="s-body">Desde hostels con onda hasta fincas de lujo. Filtra por la cantidad de personas de tu grupo y el tipo de alojamiento.</p></div>
@@ -220,11 +220,11 @@
     </div>
     <div class="aloj-card" data-tipo="finca" data-min="2" data-max="8" onclick="openPlace('cabanias')">
       <div class="ac-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"><div class="ac-badge">Cabana</div></div>
-      <div class="ac-body"><div class="ac-tipo">Cabanas</div><div class="ac-name">Cabanas Los Andes</div><p class="ac-desc">Cabanas de montana con vista directa a la Cordillera en Potrerillos. Perfectas para parejas o grupos chicos.</p><div class="ac-info"><div class="ac-ii">2-8 personas</div><div class="ac-ii">Potrerillos</div><div class="ac-ii">&#11088; 4.9</div></div><div class="ac-footer"><div class="ac-price">$38.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
+      <div class="ac-body"><div class="ac-tipo">Cabanas</div><div class="ac-name">Cabanas Los Andes</div><p class="ac-desc">Cabanas de montaña con vista directa a la Cordillera en Potrerillos. Perfectas para parejas o grupos chicos.</p><div class="ac-info"><div class="ac-ii">2-8 personas</div><div class="ac-ii">Potrerillos</div><div class="ac-ii">&#11088; 4.9</div></div><div class="ac-footer"><div class="ac-price">$38.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
     </div>
     <div class="aloj-card" data-tipo="boutique" data-min="1" data-max="2" onclick="openPlace('hotelpin')">
       <div class="ac-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"><div class="ac-badge">Boutique</div></div>
-      <div class="ac-body"><div class="ac-tipo">Hotel boutique</div><div class="ac-name">Hotel Pino de Nieve</div><p class="ac-desc">Hotel boutique de montana en Las Lenas. A metros de las pistas en invierno, senderos en verano.</p><div class="ac-info"><div class="ac-ii">1-2 personas</div><div class="ac-ii">Las Lenas</div><div class="ac-ii">&#11088; 4.8</div></div><div class="ac-footer"><div class="ac-price">$65.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
+      <div class="ac-body"><div class="ac-tipo">Hotel boutique</div><div class="ac-name">Hotel Pino de Nieve</div><p class="ac-desc">Hotel boutique de montaña en Las Lenas. A metros de las pistas en invierno, senderos en verano.</p><div class="ac-info"><div class="ac-ii">1-2 personas</div><div class="ac-ii">Las Lenas</div><div class="ac-ii">&#11088; 4.8</div></div><div class="ac-footer"><div class="ac-price">$65.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
     </div>
   </div>
 </section>
@@ -246,7 +246,6 @@
       <div class="chat-wrap">
         <div class="chat-top"><div class="chat-dot"></div><div><div class="chat-name-txt">Asistente Alma</div><div class="chat-st">En linea, te habla sin vueltas</div></div></div>
         <div class="chat-msgs" id="cMsgs">
-          <div class="cmsg cmsg-ai">Hola! Soy tu guia de Mendoza. Contame que tipo de viaje queres hacer y te armo el plan perfecto.</div>
           <div class="ctyping" id="cTyping"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
         </div>
         <div class="chat-ir"><input class="cinput" id="cInput" type="text" placeholder="Escribi tu consulta..."><button class="csend" onclick="sendChat()">&#8594;</button></div>
@@ -255,44 +254,25 @@
   </div>
 </section>
 
-<!-- DESTINOS -->
-<section id="destinos">
-  <div class="dest-top fade-in">
-    <div><p class="s-label">Los favoritos</p><h2 class="s-title">Destinos mas<br>visitados</h2></div>
-    <div class="filtros">
-      <button class="filtro active" onclick="setFiltro(this)">Todos</button>
-      <button class="filtro" onclick="setFiltro(this)">Bodegas</button>
-      <button class="filtro" onclick="setFiltro(this)">Montana</button>
-      <button class="filtro" onclick="setFiltro(this)">Cultura</button>
-    </div>
-  </div>
-  <div class="dest-grid fade-in" style="transition-delay:.2s">
-    <div class="dc" onclick="openPlace('aconcagua')"><img class="dc-img" src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800" alt="Aconcagua"><div class="dc-ov"><div class="dc-tag">Montana y Aventura</div><div class="dc-name">Cerro Aconcagua</div><div class="dc-rat"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="dc-cnt">4.9 - 1.240 resenas</span></div></div></div>
-    <div class="dc" onclick="openPlace('zuccardi')"><img class="dc-img" src="https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600" alt="Bodega"><div class="dc-ov"><div class="dc-tag">Bodegas y Vino</div><div class="dc-name">Valle de Uco</div><div class="dc-rat"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="dc-cnt">4.8 - 892 resenas</span></div></div></div>
-    <div class="dc" onclick="openPlace('maipu')"><img class="dc-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600" alt="Andes"><div class="dc-ov"><div class="dc-tag">Aventura</div><div class="dc-name">Cordillera de los Andes</div><div class="dc-rat"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="dc-cnt">4.9 - 673 resenas</span></div></div></div>
-    <div class="dc" onclick="openPlace('enemigo')"><img class="dc-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600" alt="Gastronomia"><div class="dc-ov"><div class="dc-tag">Gastronomia</div><div class="dc-name">Chachingo y Maipu</div><div class="dc-rat"><span>&#9733;&#9733;&#9733;&#9733;&#9734;</span><span class="dc-cnt">4.7 - 445 resenas</span></div></div></div>
-  </div>
-</section>
-
 <!-- RECOMENDACIONES -->
 <section id="recomendaciones">
   <p class="s-label fade-in">La comunidad habla</p>
-  <h2 class="s-title fade-in">Resenas honestas.<br>Sin filtro.</h2>
+  <h2 class="s-title fade-in">Lo que dice<br>nuestra comunidad</h2>
   <div class="recs-layout">
     <div class="recs-filters fade-in">
       <button class="rfb active" onclick="setRF(this)">&#127863; Bodegas</button>
-      <button class="rfb" onclick="setRF(this)">&#127956; Montana</button>
+      <button class="rfb" onclick="setRF(this)">&#127956; Montaña</button>
       <button class="rfb" onclick="setRF(this)">&#127869; Restaurantes</button>
       <button class="rfb" onclick="setRF(this)">&#127968; Alojamientos</button>
       <button class="rfb" onclick="setRF(this)">&#127963; Cultura</button>
-      <button class="add-rev-btn" onclick="toggleRevForm()">+ Escribi tu resena</button>
+      <button class="add-rev-btn" onclick="toggleRevForm()">+ Contanos tu experiencia</button>
     </div>
     <div class="fade-in" style="transition-delay:.2s">
       <div class="revs-grid" id="revsGrid">
-        <div class="rev-card"><div class="rv-top"><div class="rv-av">M</div><div><div class="rv-name">Martina Lopez</div><div class="rv-from">Buenos Aires</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Bodega Zuccardi</div><p class="rv-text">"Una experiencia increible. El tour y la degustacion superaron todo lo que esperaba. El Malbec del Valle de Uco es otro nivel."</p></div>
-        <div class="rev-card"><div class="rv-top"><div class="rv-av">C</div><div><div class="rv-name">Carlos Perez</div><div class="rv-from">Cordoba</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Cerro Aconcagua</div><p class="rv-text">"El trekking de acercamiento es espectacular. Las vistas son unicas. Muy recomendable ir con guia local mendocino."</p></div>
-        <div class="rev-card"><div class="rv-top"><div class="rv-av">S</div><div><div class="rv-name">Sofia Ramirez</div><div class="rv-from">Rosario</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Ruta del Vino, Maipu</div><p class="rv-text">"Viaje con mis hijos y fue perfecto. Los chicos adoraron la bici y yo pude disfrutar las bodegas. Sin auto y sin complicaciones."</p></div>
-        <div class="rev-card"><div class="rv-top"><div class="rv-av">J</div><div><div class="rv-name">Joao Silva</div><div class="rv-from">Brasil</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Valle de Uco</div><p class="rv-text">"Vim sozinho e foi incrivel. Conheci outros viajeiros no tour compartilhado. Mendoza e perfeita para viajar solo."</p></div>
+        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Martina"><div><div class="rv-name">Martina Lopez</div><div class="rv-from">Buenos Aires</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Bodega Zuccardi</div><p class="rv-text">"Una experiencia increible. El tour y la degustacion superaron todo lo que esperaba. El Malbec del Valle de Uco es otro nivel."</p></div>
+        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Carlos"><div><div class="rv-name">Carlos Perez</div><div class="rv-from">Cordoba</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Cerro Aconcagua</div><p class="rv-text">"El trekking de acercamiento es espectacular. Las vistas son unicas. Muy recomendable ir con guia local mendocino."</p></div>
+        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Sofia"><div><div class="rv-name">Sofia Ramirez</div><div class="rv-from">Rosario</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Ruta del Vino, Maipu</div><p class="rv-text">"Viaje con mis hijos y fue perfecto. Los chicos adoraron la bici y yo pude disfrutar las bodegas. Sin auto y sin complicaciones."</p></div>
+        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="Joao"><div><div class="rv-name">Joao Silva</div><div class="rv-from">Brasil</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Valle de Uco</div><p class="rv-text">"Vim sozinho e foi incrivel. Conheci outros viajeiros no tour compartilhado. Mendoza e perfeita para viajar solo."</p></div>
       </div>
       <div class="rev-form" id="revForm">
         <div class="rf-title">Conta tu experiencia en Mendoza</div>
@@ -302,8 +282,8 @@
           <div class="rf"><label>Lugar que recomendas</label><input type="text" id="rfLugar" placeholder="Ej: Bodega Zuccardi"></div>
           <div class="rf"><label>Tipo de viaje</label><select id="rfTipo"><option>Despedida</option><option>Familia</option><option>Pareja</option><option>Solo/a</option><option>Amigos</option><option>Corporativo</option></select></div>
           <div class="rf rf-full"><label>Tu puntuacion</label><div class="star-row" id="starRow"><span class="s-opt" onclick="setStar(1)">&#9733;</span><span class="s-opt" onclick="setStar(2)">&#9733;</span><span class="s-opt" onclick="setStar(3)">&#9733;</span><span class="s-opt" onclick="setStar(4)">&#9733;</span><span class="s-opt" onclick="setStar(5)">&#9733;</span></div></div>
-          <div class="rf rf-full"><label>Tu resena</label><textarea id="rfText" placeholder="Contanos que viviste, que te gusto..."></textarea></div>
-          <div class="rf-btns"><button class="rf-sub" onclick="submitRev()">Publicar resena</button><button class="rf-can" onclick="toggleRevForm()">Cancelar</button></div>
+          <div class="rf rf-full"><label>Tu reseña</label><textarea id="rfText" placeholder="Contanos que viviste, que te gusto..."></textarea></div>
+          <div class="rf-btns"><button class="rf-sub" onclick="submitRev()">Publicar reseña</button><button class="rf-can" onclick="toggleRevForm()">Cancelar</button></div>
         </div>
       </div>
     </div>
@@ -319,17 +299,18 @@
     <p class="reg-note">Sin tarjeta &middot; Sin spam &middot; 100% gratis</p>
   </div>
 </section>
+
 <footer>
   <div>
     <span class="f-logo">Alma <span>Mendocina</span></span>
-    <p class="f-tag">El portal de turismo mas completo de Mendoza. Bodegas, montanas, gastronomia y cultura para cada viajero.</p>
+    <p class="f-tag">El portal de turismo mas completo de Mendoza. Bodegas, montañas, gastronomia y cultura para cada viajero.</p>
     <div class="fwpp">
-      <a class="fw-a" href="https://wa.me/5492615000001" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Bodegas y Tours</a>
-      <a class="fw-a" href="https://wa.me/5492615000002" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Aventura y Trekking</a>
-      <a class="fw-a" href="https://wa.me/5492615000003" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consulta general</a>
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Bodegas y Tours</a>
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Aventura y Trekking</a>
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consulta general</a>
     </div>
   </div>
-  <div class="f-col"><h4>Explorar</h4><a onclick="openPlace('zuccardi')">Bodegas y Vino</a><a onclick="openPlace('aconcagua')">Montana y Aventura</a><a onclick="openPlace('enemigo')">Gastronomia</a><a href="#alojamientos">Alojamientos</a></div>
+  <div class="f-col"><h4>Explorar</h4><a onclick="openPlace('zuccardi')">Bodegas y Vino</a><a onclick="openPlace('aconcagua')">Montaña y Aventura</a><a onclick="openPlace('enemigo')">Gastronomia</a><a href="#alojamientos">Alojamientos</a></div>
   <div class="f-col"><h4>Tu viaje</h4><a onclick="setTipoByKey('despedida')">Despedida</a><a onclick="setTipoByKey('familia')">Familia</a><a onclick="setTipoByKey('pareja')">Pareja</a><a onclick="setTipoByKey('solo')">Solo/a</a><a onclick="setTipoByKey('amigos')">Amigos</a></div>
   <div class="f-col"><h4>Info</h4><a href="#">Quienes somos</a><a href="#">Para negocios</a><a href="#">Publica tu lugar</a><a href="#">Contacto</a></div>
 </footer>
@@ -338,26 +319,37 @@
 <!-- MODAL LOGIN -->
 <div class="m-overlay" id="mOverlay" onclick="closeMOut(event)">
   <div class="modal">
-    <button class="m-x" onclick="closeModal()">x</button>
-    <p class="m-lbl">Tu cuenta</p><h3 class="m-title">Bienvenido</h3><p class="m-sub">Accede a tu experiencia personalizada</p>
-    <div class="m-tabs"><button class="m-tab active" onclick="switchMTab(this,'in')">Ingresar</button><button class="m-tab" onclick="switchMTab(this,'up')">Registrarse</button></div>
+    <button class="m-x" onclick="closeModal()">×</button>
+    <div class="m-tabs"><button class="m-tab active" onclick="switchMTab(this,'in')">Ingresar</button><button class="m-tab" onclick="switchMTab(this,'up')">Crear cuenta</button></div>
     <div id="mIn">
+      <p class="m-lbl">Bienvenido/a de vuelta</p>
+      <h3 class="m-title">Ingresa a tu cuenta</h3>
       <div class="m-field"><label>Email</label><input type="email" id="liEmail" placeholder="tu@email.com"><div class="m-err" id="liEmailErr">Ingresa un email valido</div></div>
-      <div class="m-field"><label>Contrasena</label><input type="password" id="liPass" placeholder="........"><div class="m-err" id="liPassErr">Email o contrasena incorrectos</div></div>
+      <div class="m-field"><label>Contrasena</label><input type="password" id="liPass" placeholder="••••••••"><div class="m-err" id="liPassErr">Email o contrasena incorrectos</div></div>
       <button class="m-submit" onclick="submitLogin()">Ingresar</button>
-      <div class="m-or">o</div>
-      <div class="m-soc"><button class="m-soc-btn">Google</button><button class="m-soc-btn">Facebook</button></div>
+      <p class="m-switch">¿No tenes cuenta? <a onclick="switchMTabByKey('up')">Crea una gratis</a></p>
     </div>
     <div id="mUp" style="display:none">
-      <div class="m-field"><label>Nombre</label><input type="text" id="upName" placeholder="Tu nombre"><div class="m-err" id="upNameErr">Contanos tu nombre</div></div>
+      <p class="m-lbl">Es gratis y sin vueltas</p>
+      <h3 class="m-title">Crea tu cuenta</h3>
+      <div class="m-field"><label>Nombre</label><input type="text" id="upName" placeholder="Como te llamas?"><div class="m-err" id="upNameErr">Contanos tu nombre</div></div>
       <div class="m-field"><label>Email</label><input type="email" id="upEmail" placeholder="tu@email.com"><div class="m-err" id="upEmailErr">Email invalido o ya registrado</div></div>
       <div class="m-field"><label>Contrasena</label><input type="password" id="upPass" placeholder="Minimo 8 caracteres"><div class="m-err" id="upPassErr">Minimo 8 caracteres</div></div>
       <div class="m-field"><label>Confirmar contrasena</label><input type="password" id="upPass2" placeholder="Repeti tu contrasena"><div class="m-err" id="upPass2Err">Las contrasenas no coinciden</div></div>
       <label class="m-promo"><input type="checkbox" id="promoChk" checked><div class="m-promo-t"><strong>&#127873; Quiero promos exclusivas</strong><span>Ofertas en bodegas y eventos mendocinos. Sin spam.</span></div></label>
       <button class="m-submit" onclick="submitReg()">Crear cuenta gratis</button>
-      <div class="m-or">o</div>
-      <div class="m-soc"><button class="m-soc-btn">Google</button><button class="m-soc-btn">Facebook</button></div>
+      <p class="m-switch">¿Ya tenes cuenta? <a onclick="switchMTabByKey('in')">Ingresa</a></p>
     </div>
+  </div>
+</div>
+
+<!-- MIS EXPERIENCIAS -->
+<div class="m-overlay" id="misExpOverlay" onclick="if(event.target.id==='misExpOverlay')closeMisExp()">
+  <div class="modal">
+    <button class="m-x" onclick="closeMisExp()">×</button>
+    <p class="m-lbl">Tu lista</p>
+    <h3 class="m-title">Mis Experiencias</h3>
+    <div id="misExpList"><p style="text-align:center;color:#999;padding:20px">Cargando...</p></div>
   </div>
 </div>
 
@@ -380,6 +372,7 @@
         <div class="d-contact-title">Consultar o reservar</div>
         <p class="d-contact-desc">Contacto directo, sin intermediarios. El precio que ves es el que pagas.</p>
         <a class="d-wpp-btn" id="dWppBtn" href="#" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consultar por WhatsApp</a>
+        <button id="dSaveBtn" onclick="saveExperiencia()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;margin-top:10px;background:#fff;color:#8B1A1A;border:2px solid #8B1A1A;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer">&#9825; Guardar experiencia</button>
       </div>
       <iframe class="d-map" id="dMap" src="" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="d-price-card">
@@ -393,9 +386,9 @@
 <!-- WPP FLOAT -->
 <div class="wpp-float">
   <div class="wpp-menu" id="wppMenu">
-    <a class="wpp-lnk" href="https://wa.me/5492615000001" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Bodegas</a>
-    <a class="wpp-lnk" href="https://wa.me/5492615000002" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Aventura</a>
-    <a class="wpp-lnk" href="https://wa.me/5492615000003" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consultas</a>
+    <a class="wpp-lnk" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Bodegas</a>
+    <a class="wpp-lnk" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Aventura</a>
+    <a class="wpp-lnk" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consultas</a>
   </div>
   <button class="wpp-fab" onclick="document.getElementById('wppMenu').classList.toggle('open')"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></button>
 </div>
