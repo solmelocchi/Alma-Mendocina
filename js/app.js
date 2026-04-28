@@ -1,5 +1,8 @@
 function openPlace(key) {
   const p = PLACES[key]; if(!p) return;
+  window._currentPlaceKey = key;
+  const sb = document.getElementById('dSaveBtn');
+  if (sb) { sb.textContent = '♡ Guardar experiencia'; sb.disabled = false; }
   document.getElementById('dHeroImg').src = p.img;
   document.getElementById('dHeroImg').alt = p.title;
   document.getElementById('dTitle').textContent = p.title;
@@ -36,7 +39,6 @@ function setLang(l, btn) {
   document.getElementById('t-hero-sub').textContent = t.sub;
   document.getElementById('t-llegada').textContent = t.llegada;
   document.getElementById('t-salida').textContent = t.salida;
-  document.getElementById('t-que').textContent = t.que;
   document.getElementById('t-pers').textContent = t.pers;
   document.getElementById('t-dias').textContent = t.dias;
   document.getElementById('t-tipo').textContent = t.tipo;
@@ -76,6 +78,7 @@ function chQty(k,d){ qtys[k]=Math.max(1,qtys[k]+d); document.getElementById(k===
 // FILTROS
 function setFiltro(btn){ document.querySelectorAll('.filtro').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
 function setRF(btn){ document.querySelectorAll('.rfb').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
+
 // REVIEWS con persistencia
 let selStar=0;
 function defaultRevs(){ return [
@@ -107,12 +110,23 @@ function submitRev(){
   showToast('Resena publicada! Gracias');
   setTimeout(()=>{ const r=getRevs(); r.forEach(x=>delete x.isNew); saveRevs(r); },4000);
 }
+
 // TOAST
 function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
 
 // SCROLL ANIM
 const obs=new IntersectionObserver(e=>e.forEach(x=>{ if(x.isIntersecting) x.target.classList.add('visible'); }),{threshold:.1});
 document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// HAMBURGUESA
+function toggleBurger() {
+  document.getElementById('navMenu').classList.toggle('open');
+  document.getElementById('navBurger').classList.toggle('open');
+}
+function closeBurger() {
+  document.getElementById('navMenu').classList.remove('open');
+  document.getElementById('navBurger').classList.remove('open');
+}
 
 // INIT
 renderRevs();
