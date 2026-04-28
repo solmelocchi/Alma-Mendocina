@@ -8,16 +8,13 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<nav>
-  <nav>
+ <nav>
   <div class="nav-logo" onclick="goHome()">Alma <span>Mendocina</span></div>
 
-  <!-- Hamburguesa -->
   <button class="nav-burger" id="navBurger" onclick="toggleBurger()" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
 
-  <!-- Menú (links + derecha) -->
   <div class="nav-menu" id="navMenu">
     <ul class="nav-links">
       <li><a href="#experiencias" onclick="closeBurger()">Experiencias</a></li>
@@ -46,27 +43,6 @@
           <label class="nav-drop-promo"><span>Recibir promos</span><input type="checkbox" id="dropPromo" onchange="togglePromo()"></label>
           <a class="nav-drop-logout" onclick="logout()">Cerrar sesion</a>
         </div>
-      </div>
-    </div>
-  </div>
-</nav>
-  </ul>
-  <div class="nav-right">
-    <div class="lang-switch">
-      <button class="lang-btn active" onclick="setLang('es',this)">ES</button>
-      <button class="lang-btn" onclick="setLang('en',this)">EN</button>
-      <button class="lang-btn" onclick="setLang('pt',this)">PT</button>
-    </div>
-    <button class="nav-cta" id="navCta" onclick="openModal()">Crear cuenta</button>
-    <div class="nav-user" id="navUser" style="display:none" onclick="toggleDrop(event)">
-      <div class="nav-user-av" id="navUserAv">M</div>
-      <span id="navUserName">Hola</span>
-      <div class="nav-drop" id="navDrop" onclick="event.stopPropagation()">
-        <div class="nav-drop-hdr"><div class="nav-drop-name" id="dropName"></div><div class="nav-drop-mail" id="dropMail"></div></div>
-        <a onclick="openMisExp();closeDrop()">Mis experiencias</a>
-        <a onclick="scrollToId('planificador');closeDrop()">Planifica tu viaje</a>
-        <label class="nav-drop-promo"><span>Recibir promos</span><input type="checkbox" id="dropPromo" onchange="togglePromo()"></label>
-        <a class="nav-drop-logout" onclick="logout()">Cerrar sesion</a>
       </div>
     </div>
   </div>
