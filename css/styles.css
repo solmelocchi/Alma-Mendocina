@@ -399,3 +399,125 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
   .wpp-float{bottom:1.2rem;left:1.2rem;}
   .toast{right:1rem;left:1rem;max-width:none;}
 }
+/* ============================================================
+   AGREGÁ esto al FINAL de css/styles.css
+   Parche mobile — nav, hero, search card
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* ── Nav: fijarlo bien y que el menú no tape el logo ── */
+  nav {
+    position: fixed !important;   /* siempre fixed en mobile */
+    z-index: 1000;
+  }
+
+  /* El menú desplegable va debajo del nav fijo */
+  .nav-menu {
+    position: fixed;              /* fixed, no absolute */
+    top: 57px;                    /* altura exacta del nav */
+    left: 0;
+    right: 0;
+    z-index: 999;
+    max-height: calc(100vh - 57px);
+  }
+
+  /* ── Hero: altura real en iOS (evita el bug de 100vh) ── */
+  .hero {
+    height: 100svh;               /* svh = small viewport height, fix iOS */
+    min-height: 580px;
+  }
+
+  /* ── Hero content: más arriba para no tapar el search ── */
+  .hero-content {
+    padding: 0 1rem;
+    width: 100%;
+  }
+
+  /* ── Search card: campos más compactos ── */
+  .search-field-wrap {
+    padding: .65rem 1rem;         /* menos padding vertical */
+  }
+
+  .s-inp {
+    font-size: .85rem;
+    padding: .2rem 0;
+  }
+
+  /* Fecha — el input[type=date] nativo en mobile es grande */
+  input[type="date"].s-inp {
+    font-size: .85rem;
+    color: var(--carbon);
+    min-height: 28px;
+  }
+
+  /* ── Search extras: en fila de 3, no columna ── */
+  .search-bottom {
+    padding: .7rem 1rem;
+    gap: .7rem;
+  }
+
+  .search-extras {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: .6rem;
+    width: 100%;
+  }
+
+  .se {
+    gap: .15rem;
+  }
+
+  .s-lbl {
+    font-size: .48rem;
+  }
+
+  .qty-row {
+    gap: .25rem;
+  }
+
+  .qty-btn {
+    width: 20px;
+    height: 20px;
+    font-size: .8rem;
+  }
+
+  .qty-num {
+    font-size: .85rem;
+  }
+
+  .tipo-select {
+    font-size: .78rem;
+    width: 100%;
+  }
+
+  /* ── Overlay modal: padding para que no llegue al borde ── */
+  .m-overlay {
+    padding: 1rem;
+    align-items: flex-end;        /* modal desde abajo en mobile */
+  }
+
+  .modal {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 1.8rem 1.4rem 2.2rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+}
+
+/* ── Fix extra para pantallas muy chicas (iPhone SE, etc.) ── */
+@media (max-width: 375px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .search-extras {
+    grid-template-columns: 1fr 1fr;  /* 2 col en pantallas muy chicas */
+  }
+
+  .se:last-child {
+    grid-column: span 2;
+  }
+}
