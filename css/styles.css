@@ -525,3 +525,14 @@ footer{background:#0e0c0a;padding:3.5rem 4rem;display:grid;grid-template-columns
   .nav-menu:not(.open) .nav-right { display: none; }
   .nav-menu.open .nav-right { display: flex; }
 }
+
+@media (max-width: 768px) {
+  /* Ocultar nav-right cuando el menu está cerrado */
+  .nav-right {
+    display: none;
+  }
+  /* Mostrarlo solo dentro del menu abierto */
+  .nav-menu.open .nav-right {
+    display: flex;
+  }
+}
