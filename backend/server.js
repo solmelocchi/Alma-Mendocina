@@ -18,8 +18,13 @@ app.use(cors());
 app.use(express.json());
 
 const mailer = nodemailer.createTransport({
-  service: 'gmail',
-  auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS }
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS
+  }
 });
 
 function readUsers() {
@@ -39,19 +44,19 @@ function authUser(req) {
 
 async function sendWelcomeEmail(name, email) {
   try {
-    console.log("Intentando enviar mail a:", email);
+    console.log("📧 Intentando enviar mail a:", email);
 
-    const info = await mailer.sendMail({
+    await mailer.sendMail({
       from: `"Alma Mendocina" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: '¡Bienvenido/a a Alma Mendocina! 🍷',
       html: `<h2>Hola ${name}</h2>`
     });
 
-    console.log("Mail enviado:", info.response);
+    console.log("✅ Mail enviado correctamente");
 
   } catch (e) {
-    console.error("ERROR EMAIL COMPLETO:", e);
+    console.error("❌ Error enviando mail:", e);
   }
 }
 
