@@ -45,6 +45,8 @@ function authUser(req) {
 async function sendWelcomeEmail(name, email) {
   try {
     console.log("📧 Intentando enviar mail a:", email);
+    console.log("📧 GMAIL_USER:", process.env.GMAIL_USER);
+    console.log("📧 GMAIL_PASS existe:", !!process.env.GMAIL_PASS);
 
     await mailer.sendMail({
       from: `"Alma Mendocina" <${process.env.GMAIL_USER}>`,
@@ -52,12 +54,11 @@ async function sendWelcomeEmail(name, email) {
       subject: '¡Bienvenido/a a Alma Mendocina! 🍷',
       html: `<h2>Hola ${name}</h2>`
     });
-     
-    
-    console.log("✅ Mail enviado correctamente");
 
+    console.log("✅ Mail enviado correctamente");
   } catch (e) {
-    console.error("❌ Error enviando mail:", e);
+    console.error("❌ Error enviando mail:", e.message);
+    console.error("❌ Código de error:", e.code);
   }
 }
 
