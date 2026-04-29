@@ -35,8 +35,6 @@ function authUser(req) {
   try { return jwt.verify(token, JWT_SECRET); } catch(e) { return null; }
 }
 
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendWelcomeEmail(name, email) {
   try {
