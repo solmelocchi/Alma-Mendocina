@@ -41,16 +41,17 @@ function renderResults(results) {
   const count = document.getElementById('resCount');
   count.textContent = results.length;
   if (!results.length) {
-    grid.innerHTML = '<p class="res-empty">No encontramos lugares con esos filtros. Probá con menos criterios.</p>';
+    grid.innerHTML = '<p class="res-empty">No encontramos lugares con esos filtros. Proba con menos criterios.</p>';
     return;
   }
   grid.innerHTML = results.map(e => {
     const shortDesc = e.desc.length > 110 ? e.desc.slice(0,110)+'...' : e.desc;
+    const imgUrl = e.img.replace(/\?w=\d+/, '?w=600');
     return '<div class="place-card" data-place-id="'+e.id+'"'
       + ' onmouseenter="highlightPin(\''+e.id+'\',true)"'
       + ' onmouseleave="highlightPin(\''+e.id+'\',false)"'
       + ' onclick="openPlace(\''+e.id+'\')">'
-      + '<div class="pc-img" style="background-image:url('+JSON.stringify(e.img)+')">'
+      + '<div class="pc-img" style="background-image:url('+JSON.stringify(imgUrl)+')">'
       +   '<div class="pc-img-ov"><div class="pc-cat">'+escHtml(e.cat)+'</div></div>'
       + '</div>'
       + '<div class="pc-body">'
@@ -73,17 +74,25 @@ function doSearch() {
   };
   const results = applyFilters(state);
   renderResults(results);
-  document.getElementById('resultados').scrollIntoView({behavior:'smooth', block:'start'});
+  const sec = document.getElementById('resultados');
+  sec.style.display = 'block';
+  sec.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function showCategoria(cat) {
+  const labels = {bodega:'Bodegas y Vino', aventura:'Montana y Aventura', gastro:'Gastronomia', cultura:'Cultura', alojamiento:'Alojamientos'};
+  const idx = getSearchIndex();
+  const results = idx.filter(e => e.categoria === cat).sort((a,b) => a.precioDesde - b.precioDesde);
+  const lbl = document.querySelector('#resultados .s-label');
+  if (lbl) lbl.textContent = labels[cat] || cat;
+  renderResults(results);
+  const sec = document.getElementById('resultados');
+  sec.style.display = 'block';
+  sec.scrollIntoView({behavior:'smooth', block:'start'});
 }
 
 function clearSearch() {
   document.getElementById('sTipo').value = '';
-  const results = applyFilters({ tipo: '', personas: 2 });
-  renderResults(results);
+  document.getElementById('resultados').style.display = 'none';
+  window.scrollTo({top:0, behavior:'smooth'});
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  const results = applyFilters({ tipo: '', personas: 2 });
-  renderResults(results);
-  if (typeof ensureMap === 'function') ensureMap();
-});

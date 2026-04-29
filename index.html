@@ -3,18 +3,13 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Alma Mendocina</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Cinzel:wght@400;500;600&family=Raleway:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
- <nav>
+<nav>
   <div class="nav-logo" onclick="goHome()">Alma <span>Mendocina</span></div>
-
-  <button class="nav-burger" id="navBurger" onclick="toggleBurger()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-
   <div class="nav-menu" id="navMenu">
     <ul class="nav-links">
       <li><a href="#experiencias" onclick="closeBurger()">Experiencias</a></li>
@@ -34,10 +29,7 @@
         <div class="nav-user-av" id="navUserAv">M</div>
         <span id="navUserName">Hola</span>
         <div class="nav-drop" id="navDrop" onclick="event.stopPropagation()">
-          <div class="nav-drop-hdr">
-            <div class="nav-drop-name" id="dropName"></div>
-            <div class="nav-drop-mail" id="dropMail"></div>
-          </div>
+          <div class="nav-drop-hdr"><div class="nav-drop-name" id="dropName"></div><div class="nav-drop-mail" id="dropMail"></div></div>
           <a onclick="openMisExp();closeDrop()">Mis experiencias</a>
           <a onclick="scrollToId('planificador');closeDrop()">Planifica tu viaje</a>
           <label class="nav-drop-promo"><span>Recibir promos</span><input type="checkbox" id="dropPromo" onchange="togglePromo()"></label>
@@ -46,6 +38,7 @@
       </div>
     </div>
   </div>
+  <button class="nav-burger" id="navBurger" onclick="toggleBurger()"><span></span><span></span><span></span></button>
 </nav>
 
 <section class="hero">
@@ -53,11 +46,11 @@
   <div class="hero-content">
     <p class="hero-eyebrow" id="t-hero-eyebrow">Bienvenido a Mendoza</p>
     <h1 class="hero-title">Descubri el<br><em>alma</em> de<br>Mendoza</h1>
-    <p class="hero-subtitle" id="t-hero-sub">Vino, montañas y experiencias que no olvidaras</p>
+    <p class="hero-subtitle" id="t-hero-sub">Vino, montanas y experiencias que no olvidaras</p>
     <div class="hero-search-card">
       <div class="search-row">
-        <div class="search-field-wrap"><div class="s-lbl" id="t-llegada">Llegada</div><input class="s-inp" type="date" id="sLlegada"></div>
-        <div class="search-field-wrap"><div class="s-lbl" id="t-salida">Salida</div><input class="s-inp" type="date" id="sSalida"></div>
+        <div class="search-field-wrap"><div class="s-lbl" id="t-llegada">Llegada</div><input class="s-inp date-inp" type="text" id="sLlegada" placeholder="--/--/--" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
+        <div class="search-field-wrap"><div class="s-lbl" id="t-salida">Salida</div><input class="s-inp date-inp" type="text" id="sSalida" placeholder="--/--/--" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
       </div>
       <div class="search-bottom">
         <div class="search-extras">
@@ -82,7 +75,7 @@
 </section>
 
 <!-- RESULTADOS DE BUSQUEDA -->
-<section id="resultados" class="view-list" style="background:var(--nieve)">
+<section id="resultados" class="view-list" style="display:none;background:var(--nieve)">
   <div class="res-top">
     <div>
       <p class="s-label">Resultados</p>
@@ -106,11 +99,11 @@
 <section id="experiencias">
   <div class="fade-in"><p class="s-label">Lo que te espera</p><h2 class="s-title">Cada rincon,<br>una experiencia unica</h2><p class="s-body">Desde las bodegas mas exclusivas del Valle de Uco hasta los picos mas altos de los Andes.</p></div>
   <div class="cats-grid fade-in" style="transition-delay:.2s">
-    <div class="cat-card" onclick="openPlace('zuccardi')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800')"></div><div class="cat-overlay"><div class="cat-icon">&#127863;</div><div class="cat-name">Bodegas y Vino</div><div class="cat-count">47 experiencias</div></div></div>
-    <div class="cat-card" onclick="openPlace('aconcagua')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127956;</div><div class="cat-name">Montaña y Aventura</div><div class="cat-count">32 actividades</div></div></div>
-    <div class="cat-card" onclick="openPlace('enemigo')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127869;</div><div class="cat-name">Gastronomia</div><div class="cat-count">58 restaurantes</div></div></div>
-    <div class="cat-card" onclick="openPlace('independencia')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127963;</div><div class="cat-name">Cultura</div><div class="cat-count">24 lugares</div></div></div>
-    <div class="cat-card" onclick="openPlace('cavas')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127968;</div><div class="cat-name">Alojamientos</div><div class="cat-count">63 opciones</div></div></div>
+    <div class="cat-card" onclick="showCategoria('bodega')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800')"></div><div class="cat-overlay"><div class="cat-icon">&#127863;</div><div class="cat-name">Bodegas y Vino</div><div class="cat-count">Ver todas</div></div></div>
+    <div class="cat-card" onclick="showCategoria('aventura')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127956;</div><div class="cat-name">Montana y Aventura</div><div class="cat-count">Ver todas</div></div></div>
+    <div class="cat-card" onclick="showCategoria('gastro')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127869;</div><div class="cat-name">Gastronomia</div><div class="cat-count">Ver todas</div></div></div>
+    <div class="cat-card" onclick="showCategoria('cultura')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127963;</div><div class="cat-name">Cultura</div><div class="cat-count">Ver todas</div></div></div>
+    <div class="cat-card" onclick="showCategoria('alojamiento')"><div class="cat-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"></div><div class="cat-overlay"><div class="cat-icon">&#127968;</div><div class="cat-name">Alojamientos</div><div class="cat-count">Ver todos</div></div></div>
   </div>
 </section>
 
@@ -136,7 +129,7 @@
     </div>
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('zuccardi')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600')"><div class="pc-img-ov"><div class="pc-cat">Bodega Privada</div></div></div><div class="pc-body"><div class="pc-name">Cata privada en Zuccardi</div><p class="pc-desc">Sommelier exclusivo, maridaje y vista a los Andes para todo el grupo.</p><div class="pc-footer"><div class="pc-price">Desde $35.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('rafting')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=600')"><div class="pc-img-ov"><div class="pc-cat">Aventura</div></div></div><div class="pc-body"><div class="pc-name">Rafting Rio Mendoza</div><p class="pc-desc">Adrenalina pura en el Rio Mendoza. Guias certificados y equipo incluido.</p><div class="pc-footer"><div class="pc-price">$28.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('enemigo')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"><div class="pc-img-ov"><div class="pc-cat">Cena de lujo</div></div></div><div class="pc-body"><div class="pc-name">Casa El Enemigo</div><p class="pc-desc">Menu degustacion con maridaje en bodega boutique. Chef de autor.</p><div class="pc-footer"><div class="pc-price">Desde $55.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
-  <div class="tipo-panel " id="panel-familia">
+  <div class="tipo-panel" id="panel-familia">
     <div class="tipo-header fade-in">
       <div>
         <div class="tipo-title">Mendoza en <em>familia</em></div>
@@ -147,7 +140,7 @@
     </div>
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('maipu')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600')"><div class="pc-img-ov"><div class="pc-cat">Paseo familiar</div></div></div><div class="pc-body"><div class="pc-name">Ruta del Vino en bici</div><p class="pc-desc">El plan favorito de las familias. Bodegas en bicicleta por caminos de tierra.</p><div class="pc-footer"><div class="pc-price">$4.000 ARS/bici/dia</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('cabalgata')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"><div class="pc-img-ov"><div class="pc-cat">Cabalgata</div></div></div><div class="pc-body"><div class="pc-name">Cabalgata en los Andes</div><p class="pc-desc">Apto desde 6 anos con guias experimentados. Vista al Aconcagua incluida.</p><div class="pc-footer"><div class="pc-price">$18.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('divisadero')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600')"><div class="pc-img-ov"><div class="pc-cat">Naturaleza</div></div></div><div class="pc-body"><div class="pc-name">Reserva Divisadero Largo</div><p class="pc-desc">Senderos faciles y mirador espectacular dentro de la ciudad. Entrada gratuita.</p><div class="pc-footer"><div class="pc-price">Entrada gratuita</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
-  <div class="tipo-panel " id="panel-pareja">
+  <div class="tipo-panel" id="panel-pareja">
     <div class="tipo-header fade-in">
       <div>
         <div class="tipo-title">Mendoza en <em>pareja</em></div>
@@ -158,7 +151,7 @@
     </div>
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('atardecer')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600')"><div class="pc-img-ov"><div class="pc-cat">Romantico</div></div></div><div class="pc-body"><div class="pc-name">Vino al Atardecer</div><p class="pc-desc">Cata de vinos mientras el sol se pone detras de los Andes. La experiencia mas romantica de Mendoza.</p><div class="pc-footer"><div class="pc-price">$22.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('astro')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1539037116277-4db20889f2d4?w=600')"><div class="pc-img-ov"><div class="pc-cat">Astroturismo</div></div></div><div class="pc-body"><div class="pc-name">Noche de estrellas entre olivos</div><p class="pc-desc">Observacion astronomica con telescopio profesional en finca privada. Vino y quesos incluidos.</p><div class="pc-footer"><div class="pc-price">$30.000 ARS/pareja</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('maridaje')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"><div class="pc-img-ov"><div class="pc-cat">Cena intima</div></div></div><div class="pc-body"><div class="pc-name">Maridaje de Sentidos</div><p class="pc-desc">Solo 4 mesas por noche. Cada plato cuenta la historia de un terroir de Mendoza.</p><div class="pc-footer"><div class="pc-price">$65.000 ARS/pareja</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
-  <div class="tipo-panel " id="panel-amigos">
+  <div class="tipo-panel" id="panel-amigos">
     <div class="tipo-header fade-in">
       <div>
         <div class="tipo-title">Mendoza con <em>amigos</em></div>
@@ -169,7 +162,7 @@
     </div>
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('maraton')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=600')"><div class="pc-img-ov"><div class="pc-cat">Cata grupal</div></div></div><div class="pc-body"><div class="pc-name">Maraton de Bodegas</div><p class="pc-desc">4 bodegas en un dia con traslado incluido. Maridaje en cada una y botella de regalo.</p><div class="pc-footer"><div class="pc-price">$42.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('aconcagua')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"><div class="pc-img-ov"><div class="pc-cat">Aventura grupal</div></div></div><div class="pc-body"><div class="pc-name">Trekking Cordillera</div><p class="pc-desc">Dia completo con guia mendocino local. Almuerzo con vista al Aconcagua.</p><div class="pc-footer"><div class="pc-price">$35.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('vinerias')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600')"><div class="pc-img-ov"><div class="pc-cat">Evento</div></div></div><div class="pc-body"><div class="pc-name">Noche de las Vinerias</div><p class="pc-desc">El evento mas famoso de Mendoza. Todas las vinerias del centro con copa en mano.</p><div class="pc-footer"><div class="pc-price">$8.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
-  <div class="tipo-panel " id="panel-solo">
+  <div class="tipo-panel" id="panel-solo">
     <div class="tipo-header fade-in">
       <div>
         <div class="tipo-title">Mendoza <em>solo/a</em></div>
@@ -180,7 +173,7 @@
     </div>
     <div class="tipo-cards"><div class="place-card" onclick="openPlace('tourcomp')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600')"><div class="pc-img-ov"><div class="pc-cat">Sin auto</div></div></div><div class="pc-body"><div class="pc-name">Tour compartido a bodegas</div><p class="pc-desc">Vas en micro con otros viajeros del mundo. 3 bodegas y precio mucho menor que tour privado.</p><div class="pc-footer"><div class="pc-price">$18.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('aconcagua')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"><div class="pc-img-ov"><div class="pc-cat">Aventura</div></div></div><div class="pc-body"><div class="pc-name">Trekking grupal Cordillera</div><p class="pc-desc">El mejor plan para conocer gente viajando solo. Grupos pequenos y guia local.</p><div class="pc-footer"><div class="pc-price">$35.000 ARS/persona</div><button class="pc-btn">Ver mas</button></div></div></div><div class="place-card" onclick="openPlace('walking')"><div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"><div class="pc-img-ov"><div class="pc-cat">Comunidad</div></div></div><div class="pc-body"><div class="pc-name">Free Walking Tour</div><p class="pc-desc">Centro historico con guia local y viajeros del mundo. Gratis, propina voluntaria.</p><div class="pc-footer"><div class="pc-price">Entrada gratuita</div><button class="pc-btn">Ver mas</button></div></div></div></div>
   </div>
-  <div class="tipo-panel " id="panel-corporativo">
+  <div class="tipo-panel" id="panel-corporativo">
     <div class="tipo-header fade-in">
       <div>
         <div class="tipo-title">Mendoza <em>corporativo</em></div>
@@ -230,11 +223,11 @@
     </div>
     <div class="aloj-card" data-tipo="finca" data-min="2" data-max="8" onclick="openPlace('cabanias')">
       <div class="ac-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')"><div class="ac-badge">Cabana</div></div>
-      <div class="ac-body"><div class="ac-tipo">Cabanas</div><div class="ac-name">Cabanas Los Andes</div><p class="ac-desc">Cabanas de montaña con vista directa a la Cordillera en Potrerillos. Perfectas para parejas o grupos chicos.</p><div class="ac-info"><div class="ac-ii">2-8 personas</div><div class="ac-ii">Potrerillos</div><div class="ac-ii">&#11088; 4.9</div></div><div class="ac-footer"><div class="ac-price">$38.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
+      <div class="ac-body"><div class="ac-tipo">Cabanas</div><div class="ac-name">Cabanas Los Andes</div><p class="ac-desc">Cabanas de montana con vista directa a la Cordillera en Potrerillos. Perfectas para parejas o grupos chicos.</p><div class="ac-info"><div class="ac-ii">2-8 personas</div><div class="ac-ii">Potrerillos</div><div class="ac-ii">&#11088; 4.9</div></div><div class="ac-footer"><div class="ac-price">$38.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
     </div>
     <div class="aloj-card" data-tipo="boutique" data-min="1" data-max="2" onclick="openPlace('hotelpin')">
       <div class="ac-img" style="background-image:url('https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=600')"><div class="ac-badge">Boutique</div></div>
-      <div class="ac-body"><div class="ac-tipo">Hotel boutique</div><div class="ac-name">Hotel Pino de Nieve</div><p class="ac-desc">Hotel boutique de montaña en Las Lenas. A metros de las pistas en invierno, senderos en verano.</p><div class="ac-info"><div class="ac-ii">1-2 personas</div><div class="ac-ii">Las Lenas</div><div class="ac-ii">&#11088; 4.8</div></div><div class="ac-footer"><div class="ac-price">$65.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
+      <div class="ac-body"><div class="ac-tipo">Hotel boutique</div><div class="ac-name">Hotel Pino de Nieve</div><p class="ac-desc">Hotel boutique de montana en Las Lenas. A metros de las pistas en invierno, senderos en verano.</p><div class="ac-info"><div class="ac-ii">1-2 personas</div><div class="ac-ii">Las Lenas</div><div class="ac-ii">&#11088; 4.8</div></div><div class="ac-footer"><div class="ac-price">$65.000 ARS<small>por noche</small></div><button class="ac-btn">Ver mas</button></div></div>
     </div>
   </div>
 </section>
@@ -256,6 +249,7 @@
       <div class="chat-wrap">
         <div class="chat-top"><div class="chat-dot"></div><div><div class="chat-name-txt">Asistente Alma</div><div class="chat-st">En linea, te habla sin vueltas</div></div></div>
         <div class="chat-msgs" id="cMsgs">
+          <div class="cmsg cmsg-ai">Hola! Soy tu guia de Mendoza. Contame que tipo de viaje queres hacer y te armo el plan perfecto.</div>
           <div class="ctyping" id="cTyping"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>
         </div>
         <div class="chat-ir"><input class="cinput" id="cInput" type="text" placeholder="Escribi tu consulta..."><button class="csend" onclick="sendChat()">&#8594;</button></div>
@@ -271,19 +265,14 @@
   <div class="recs-layout">
     <div class="recs-filters fade-in">
       <button class="rfb active" onclick="setRF(this)">&#127863; Bodegas</button>
-      <button class="rfb" onclick="setRF(this)">&#127956; Montaña</button>
+      <button class="rfb" onclick="setRF(this)">&#127956; Montana</button>
       <button class="rfb" onclick="setRF(this)">&#127869; Restaurantes</button>
       <button class="rfb" onclick="setRF(this)">&#127968; Alojamientos</button>
       <button class="rfb" onclick="setRF(this)">&#127963; Cultura</button>
       <button class="add-rev-btn" onclick="toggleRevForm()">+ Contanos tu experiencia</button>
     </div>
     <div class="fade-in" style="transition-delay:.2s">
-      <div class="revs-grid" id="revsGrid">
-        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Martina"><div><div class="rv-name">Martina Lopez</div><div class="rv-from">Buenos Aires</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Bodega Zuccardi</div><p class="rv-text">"Una experiencia increible. El tour y la degustacion superaron todo lo que esperaba. El Malbec del Valle de Uco es otro nivel."</p></div>
-        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Carlos"><div><div class="rv-name">Carlos Perez</div><div class="rv-from">Cordoba</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Cerro Aconcagua</div><p class="rv-text">"El trekking de acercamiento es espectacular. Las vistas son unicas. Muy recomendable ir con guia local mendocino."</p></div>
-        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Sofia"><div><div class="rv-name">Sofia Ramirez</div><div class="rv-from">Rosario</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Ruta del Vino, Maipu</div><p class="rv-text">"Viaje con mis hijos y fue perfecto. Los chicos adoraron la bici y yo pude disfrutar las bodegas. Sin auto y sin complicaciones."</p></div>
-        <div class="rev-card"><div class="rv-top"><img class="rv-av" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="Joao"><div><div class="rv-name">Joao Silva</div><div class="rv-from">Brasil</div></div><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><div class="rv-place">Valle de Uco</div><p class="rv-text">"Vim sozinho e foi incrivel. Conheci outros viajeiros no tour compartilhado. Mendoza e perfeita para viajar solo."</p></div>
-      </div>
+      <div class="revs-grid" id="revsGrid"></div>
       <div class="rev-form" id="revForm">
         <div class="rf-title">Conta tu experiencia en Mendoza</div>
         <div class="rf-grid">
@@ -292,8 +281,8 @@
           <div class="rf"><label>Lugar que recomendas</label><input type="text" id="rfLugar" placeholder="Ej: Bodega Zuccardi"></div>
           <div class="rf"><label>Tipo de viaje</label><select id="rfTipo"><option>Despedida</option><option>Familia</option><option>Pareja</option><option>Solo/a</option><option>Amigos</option><option>Corporativo</option></select></div>
           <div class="rf rf-full"><label>Tu puntuacion</label><div class="star-row" id="starRow"><span class="s-opt" onclick="setStar(1)">&#9733;</span><span class="s-opt" onclick="setStar(2)">&#9733;</span><span class="s-opt" onclick="setStar(3)">&#9733;</span><span class="s-opt" onclick="setStar(4)">&#9733;</span><span class="s-opt" onclick="setStar(5)">&#9733;</span></div></div>
-          <div class="rf rf-full"><label>Tu reseña</label><textarea id="rfText" placeholder="Contanos que viviste, que te gusto..."></textarea></div>
-          <div class="rf-btns"><button class="rf-sub" onclick="submitRev()">Publicar reseña</button><button class="rf-can" onclick="toggleRevForm()">Cancelar</button></div>
+          <div class="rf rf-full"><label>Tu resena</label><textarea id="rfText" placeholder="Contanos que viviste, que te gusto..."></textarea></div>
+          <div class="rf-btns"><button class="rf-sub" onclick="submitRev()">Publicar resena</button><button class="rf-can" onclick="toggleRevForm()">Cancelar</button></div>
         </div>
       </div>
     </div>
@@ -310,10 +299,21 @@
   </div>
 </section>
 
-<footer style="background:#0e0c0a;padding:2rem 4rem;text-align:center;border-top:1px solid rgba(201,168,76,.14);">
-  <span class="f-logo">Alma <span>Mendocina</span></span>
-  <p style="font-family:'Josefin Sans',sans-serif;font-size:.6rem;letter-spacing:.13em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-top:.8rem;">© 2025 Alma Mendocina · Todos los derechos reservados · Mendoza, Argentina</p>
+<footer>
+  <div>
+    <span class="f-logo">Alma <span>Mendocina</span></span>
+    <p class="f-tag">El portal de turismo mas completo de Mendoza. Bodegas, montanas, gastronomia y cultura para cada viajero.</p>
+    <div class="fwpp">
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Bodegas y Tours</a>
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Aventura y Trekking</a>
+      <a class="fw-a" href="https://wa.me/5492612501757" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Consulta general</a>
+    </div>
+  </div>
+  <div class="f-col"><h4>Explorar</h4><a onclick="openPlace('zuccardi')">Bodegas y Vino</a><a onclick="openPlace('aconcagua')">Montana y Aventura</a><a onclick="openPlace('enemigo')">Gastronomia</a><a href="#alojamientos">Alojamientos</a></div>
+  <div class="f-col"><h4>Tu viaje</h4><a onclick="setTipoByKey('despedida')">Despedida</a><a onclick="setTipoByKey('familia')">Familia</a><a onclick="setTipoByKey('pareja')">Pareja</a><a onclick="setTipoByKey('solo')">Solo/a</a><a onclick="setTipoByKey('amigos')">Amigos</a></div>
+  <div class="f-col"><h4>Info</h4><a href="#">Quienes somos</a><a href="#">Para negocios</a><a href="#">Publica tu lugar</a><a href="#">Contacto</a></div>
 </footer>
+<div class="f-bot"><span class="f-copy">2025 Alma Mendocina - Mendoza, Argentina</span><span class="f-copy">Hecho con amor en Mendoza</span></div>
 
 <!-- MODAL LOGIN -->
 <div class="m-overlay" id="mOverlay" onclick="closeMOut(event)">
@@ -326,7 +326,7 @@
       <div class="m-field"><label>Email</label><input type="email" id="liEmail" placeholder="tu@email.com"><div class="m-err" id="liEmailErr">Ingresa un email valido</div></div>
       <div class="m-field"><label>Contrasena</label><input type="password" id="liPass" placeholder="••••••••"><div class="m-err" id="liPassErr">Email o contrasena incorrectos</div></div>
       <button class="m-submit" onclick="submitLogin()">Ingresar</button>
-      <p class="m-switch">¿No tenes cuenta? <a onclick="switchMTabByKey('up')">Crea una gratis</a></p>
+      <p class="m-switch">No tenes cuenta? <a onclick="switchMTabByKey('up')">Crea una gratis</a></p>
     </div>
     <div id="mUp" style="display:none">
       <p class="m-lbl">Es gratis y sin vueltas</p>
@@ -337,7 +337,7 @@
       <div class="m-field"><label>Confirmar contrasena</label><input type="password" id="upPass2" placeholder="Repeti tu contrasena"><div class="m-err" id="upPass2Err">Las contrasenas no coinciden</div></div>
       <label class="m-promo"><input type="checkbox" id="promoChk" checked><div class="m-promo-t"><strong>&#127873; Quiero promos exclusivas</strong><span>Ofertas en bodegas y eventos mendocinos. Sin spam.</span></div></label>
       <button class="m-submit" onclick="submitReg()">Crear cuenta gratis</button>
-      <p class="m-switch">¿Ya tenes cuenta? <a onclick="switchMTabByKey('in')">Ingresa</a></p>
+      <p class="m-switch">Ya tenes cuenta? <a onclick="switchMTabByKey('in')">Ingresa</a></p>
     </div>
   </div>
 </div>
