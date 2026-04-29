@@ -9,137 +9,115 @@ const nodemailer = require('nodemailer');
 const Groq = require('groq-sdk');
 
 const app = express();
-
-// CONFIG
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-const JWT_SECRET = process.env.JWT_SECRET || 'cambiar-esto';
+const JWT_SECRET = process.env.JWT_SECRET || 'alma-mendocina-secret-change-me';
 const USERS_FILE = path.join(__dirname, 'users.json');
+const EXP_FILE = path.join(__dirname, 'experiencias.json');
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ MAILER (versión correcta para Render)
 const mailer = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS
-  }
+  service: 'gmail',
+  auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASS }
 });
 
-// HELPERS
 function readUsers() {
-  try {
-    return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8'));
-  } catch (e) {
-    return {};
-  }
+  try { return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8')); } catch(e) { return {}; }
+}
+function writeUsers(u) { fs.writeFileSync(USERS_FILE, JSON.stringify(u, null, 2)); }
+function readExp() {
+  try { return JSON.parse(fs.readFileSync(EXP_FILE, 'utf8')); } catch(e) { return {}; }
+}
+function writeExp(d) { fs.writeFileSync(EXP_FILE, JSON.stringify(d, null, 2)); }
+
+function authUser(req) {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return null;
+  try { return jwt.verify(token, JWT_SECRET); } catch(e) { return null; }
 }
 
-function writeUsers(u) {
-  fs.writeFileSync(USERS_FILE, JSON.stringify(u, null, 2));
-}
-
-// ✅ EMAIL (con logs reales)
 async function sendWelcomeEmail(name, email) {
-  console.log("Intentando enviar mail a:", email);
-
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
-    console.log("Faltan credenciales de mail");
-    return;
-  }
-
   try {
-    await mailer.sendMail({
+    console.log("Intentando enviar mail a:", email);
+
+    const info = await mailer.sendMail({
       from: `"Alma Mendocina" <${process.env.GMAIL_USER}>`,
       to: email,
       subject: '¡Bienvenido/a a Alma Mendocina! 🍷',
-      html: `
-        <div style="font-family:sans-serif;max-width:500px;margin:auto">
-          <h2 style="color:#8B1A1A">¡Hola ${name}!</h2>
-          <p>Tu cuenta en <strong>Alma Mendocina</strong> fue creada correctamente.</p>
-          <p>Ya podés planificar tu viaje a Mendoza 🍷</p>
-          <p style="margin-top:32px">
-            ¡Buen viaje!<br><strong>El equipo de Alma Mendocina</strong>
-          </p>
-        </div>
-      `
+      html: `<h2>Hola ${name}</h2>`
     });
 
-    console.log("Mail enviado correctamente ✅");
+    console.log("Mail enviado:", info.response);
 
   } catch (e) {
-    console.error("ERROR COMPLETO MAIL:", e);
+    console.error("ERROR EMAIL COMPLETO:", e);
   }
 }
 
 // AUTH
 app.post('/api/register', async (req, res) => {
   const { name, email, pass, promo } = req.body;
-
-  if (!name || !email || !pass) {
-    return res.status(400).json({ error: 'Faltan campos' });
-  }
-
-  if (pass.length < 8) {
-    return res.status(400).json({ error: 'Contraseña muy corta' });
-  }
-
+  if (!name || !email || !pass) return res.status(400).json({ error: 'Faltan campos' });
+  if (pass.length < 8) return res.status(400).json({ error: 'Contrasena muy corta' });
   const users = readUsers();
   const key = email.toLowerCase();
-
-  if (users[key]) {
-    return res.status(409).json({ error: 'Email ya registrado' });
-  }
-
+  if (users[key]) return res.status(409).json({ error: 'Email ya registrado' });
   const hashed = await bcrypt.hash(pass, 10);
-
-  users[key] = {
-    name,
-    pass: hashed,
-    promo: !!promo,
-    created: Date.now()
-  };
-
+  users[key] = { name, pass: hashed, promo: !!promo, created: Date.now() };
   writeUsers(users);
-
-  // ✅ IMPORTANTE: con await
-  await sendWelcomeEmail(name, key);
-
+  await sendWelcomeEmail(name, key);await sendWelcomeEmail(name, key); 
   const user = { email: key, name, promo: !!promo };
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: '30d' });
-
   res.json({ token, user });
 });
 
 app.post('/api/login', async (req, res) => {
   const { email, pass } = req.body;
-
-  if (!email || !pass) {
-    return res.status(400).json({ error: 'Faltan campos' });
-  }
-
+  if (!email || !pass) return res.status(400).json({ error: 'Faltan campos' });
   const users = readUsers();
   const key = email.toLowerCase();
   const u = users[key];
-
-  if (!u) {
-    return res.status(401).json({ error: 'Credenciales incorrectas' });
-  }
-
+  if (!u) return res.status(401).json({ error: 'Email o contrasena incorrectos' });
   const valid = await bcrypt.compare(pass, u.pass);
-
-  if (!valid) {
-    return res.status(401).json({ error: 'Credenciales incorrectas' });
-  }
-
+  if (!valid) return res.status(401).json({ error: 'Email o contrasena incorrectos' });
   const user = { email: key, name: u.name, promo: u.promo };
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: '30d' });
-
   res.json({ token, user });
 });
+
+// EXPERIENCIAS
+app.post('/api/experiencia', (req, res) => {
+  const u = authUser(req);
+  if (!u) return res.status(401).json({ error: 'No autorizado' });
+  const { placeId, title, img, cat } = req.body;
+  const data = readExp();
+  if (!data[u.email]) data[u.email] = [];
+  if (!data[u.email].find(e => e.placeId === placeId)) {
+    data[u.email].push({ placeId, title, img, cat, savedAt: Date.now() });
+  }
+  writeExp(data);
+  res.json({ ok: true });
+});
+
+app.get('/api/experiencias', (req, res) => {
+  const u = authUser(req);
+  if (!u) return res.status(401).json({ error: 'No autorizado' });
+  const data = readExp();
+  res.json({ experiencias: data[u.email] || [] });
+});
+
+app.delete('/api/experiencia/:placeId', (req, res) => {
+  const u = authUser(req);
+  if (!u) return res.status(401).json({ error: 'No autorizado' });
+  const data = readExp();
+  if (data[u.email]) {
+    data[u.email] = data[u.email].filter(e => e.placeId !== req.params.placeId);
+  }
+  writeExp(data);
+  res.json({ ok: true });
+});
+
 // CHAT IA
 const SYSTEM_PROMPT = `Sos Alma, una asistente experta en turismo de Mendoza, Argentina. Ayudas a los viajeros a planificar itinerarios personalizados y detallados.
 
