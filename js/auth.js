@@ -1,4 +1,7 @@
-const USERS_KEY='am_users', SESS_KEY='am_session', REV_KEY='am_reviews';
+const SESS_KEY  = 'am_session';
+const USERS_KEY = 'am_users';
+const REV_KEY   = 'am_reviews';
+const API_BASE = 'https://alma-mendocina-1.onrender.com';
 function getUsers(){ try{return JSON.parse(localStorage.getItem(USERS_KEY))||{};}catch(e){return {};} }
 function saveUsers(u){ localStorage.setItem(USERS_KEY,JSON.stringify(u)); }
 function getSession(){ try{return JSON.parse(localStorage.getItem(SESS_KEY));}catch(e){return null;} }
