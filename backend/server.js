@@ -19,8 +19,9 @@ app.use(express.json());
 
 const mailer = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 587,       // era 465
-  secure: false,   // era true
+  port: 587,
+  secure: false,
+  family: 4,        // ← forzar IPv4
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS
