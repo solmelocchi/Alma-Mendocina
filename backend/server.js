@@ -19,8 +19,8 @@ app.use(express.json());
 
 const mailer = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  port: 587,       // era 465
+  secure: false,   // era true
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_PASS
@@ -52,7 +52,8 @@ async function sendWelcomeEmail(name, email) {
       subject: '¡Bienvenido/a a Alma Mendocina! 🍷',
       html: `<h2>Hola ${name}</h2>`
     });
-
+     
+    
     console.log("✅ Mail enviado correctamente");
 
   } catch (e) {
@@ -71,7 +72,7 @@ app.post('/api/register', async (req, res) => {
   const hashed = await bcrypt.hash(pass, 10);
   users[key] = { name, pass: hashed, promo: !!promo, created: Date.now() };
   writeUsers(users);
-  await sendWelcomeEmail(name, key);await sendWelcomeEmail(name, key); 
+  await sendWelcomeEmail(name, key); 
   const user = { email: key, name, promo: !!promo };
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: '30d' });
   res.json({ token, user });
