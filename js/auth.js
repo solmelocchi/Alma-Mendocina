@@ -24,24 +24,50 @@ function submitLogin(){
   setSession(email); refreshAuthUI(); closeModal(); showToast('Hola '+u.name+'! Bienvenido/a de vuelta');
   document.getElementById('liEmail').value=''; document.getElementById('liPass').value='';
 }
-function submitReg(){
-  const name=document.getElementById('upName').value.trim();
-  const email=document.getElementById('upEmail').value.trim().toLowerCase();
-  const pass=document.getElementById('upPass').value;
-  const pass2=document.getElementById('upPass2').value;
-  const promo=document.getElementById('promoChk').checked;
+async function submitReg(){
+  const name  = document.getElementById('upName').value.trim();
+  const email = document.getElementById('upEmail').value.trim().toLowerCase();
+  const pass  = document.getElementById('upPass').value;
+  const pass2 = document.getElementById('upPass2').value;
+  const promo = document.getElementById('promoChk').checked;
   clearErrs(['upNameErr','upEmailErr','upPassErr','upPass2Err']);
-  let ok=true;
-  if(!name){ showErr('upNameErr',true); ok=false; }
-  const users=getUsers();
-  if(!isEmail(email)||users[email]){ showErr('upEmailErr',true); ok=false; }
-  if(pass.length<8){ showErr('upPassErr',true); ok=false; }
-  if(pass!==pass2){ showErr('upPass2Err',true); ok=false; }
-  if(!ok) return;
-  users[email]={name,pass:hash(pass),promo,created:Date.now()}; saveUsers(users);
-  setSession(email); refreshAuthUI(); closeModal();
-  showToast(promo?'Cuenta creada! Te llegaran promos':'Bienvenido/a a Alma Mendocina!');
-  ['upName','upEmail','upPass','upPass2'].forEach(id=>document.getElementById(id).value='');
+
+  let ok = true;
+  if (!name)              { showErr('upNameErr', true); ok = false; }
+  if (!isEmail(email))    { showErr('upEmailErr', true); ok = false; }
+  if (pass.length < 8)   { showErr('upPassErr', true); ok = false; }
+  if (pass !== pass2)    { showErr('upPass2Err', true); ok = false; }
+  if (!ok) return;
+
+  try {
+    // ← llama al backend → backend llama a sendWelcomeEmail
+    const res  = await fetch(`${API_BASE}/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, pass, promo })
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      if (data.error === 'Email ya registrado') showErr('upEmailErr', true);
+      else showToast(data.error || 'Error al registrarse');
+      return;
+    }
+
+    // guardar token y sesión local
+    localStorage.setItem('am_token', data.token);
+    const users = getUsers();
+    users[email] = { name, pass: hash(pass), promo, created: Date.now() };
+    saveUsers(users);
+    setSession(email);
+
+    refreshAuthUI(); closeModal();
+    showToast(promo ? 'Cuenta creada! Te llegarán promos' : 'Bienvenido/a a Alma Mendocina!');
+    ['upName','upEmail','upPass','upPass2'].forEach(id => document.getElementById(id).value = '');
+
+  } catch(e) {
+    showToast('Error de conexión con el servidor');
+  }
 }
 function quickReg(){
   const email=document.getElementById('regQuickEmail').value.trim().toLowerCase();
