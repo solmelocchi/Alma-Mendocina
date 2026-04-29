@@ -43,23 +43,28 @@ function authUser(req) {
   try { return jwt.verify(token, JWT_SECRET); } catch(e) { return null; }
 }
 
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 async function sendWelcomeEmail(name, email) {
   try {
     console.log("📧 Intentando enviar mail a:", email);
-    console.log("📧 GMAIL_USER:", process.env.GMAIL_USER);
-    console.log("📧 GMAIL_PASS existe:", !!process.env.GMAIL_PASS);
-
-    await mailer.sendMail({
-      from: `"Alma Mendocina" <${process.env.GMAIL_USER}>`,
+    await resend.emails.send({
+      from: 'Alma Mendocina <onboarding@resend.dev>',
       to: email,
       subject: '¡Bienvenido/a a Alma Mendocina! 🍷',
-      html: `<h2>Hola ${name}</h2>`
+      html: `
+  <div style="font-family:sans-serif;max-width:500px;margin:auto;padding:20px">
+    <h2 style="color:#8B0000">¡Hola ${name}!</h2>
+    <p>Tu cuenta en <strong>Alma Mendocina</strong> fue creada correctamente.</p>
+    <p>Ya podés planificar tu viaje a Mendoza: bodegas, aventuras, gastronomía y mucho más.</p>
+    <p>¡Buen viaje! 🍷<br><strong>El equipo de Alma Mendocina</strong></p>
+  </div>
+`
     });
-
     console.log("✅ Mail enviado correctamente");
-  } catch (e) {
+  } catch(e) {
     console.error("❌ Error enviando mail:", e.message);
-    console.error("❌ Código de error:", e.code);
   }
 }
 
