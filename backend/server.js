@@ -51,7 +51,7 @@ async function sendWelcomeEmail(name, email) {
         <p style="margin-top:32px">¡Buen viaje! 🍷<br><strong>El equipo de Alma Mendocina</strong></p>
       </div>`
     });
-  } catch(e) { console.error('Error email:', e.message); }
+  } catch(e) { console.error('Error email compelto:', e.message); }
 }
 
 // AUTH
@@ -65,7 +65,7 @@ app.post('/api/register', async (req, res) => {
   const hashed = await bcrypt.hash(pass, 10);
   users[key] = { name, pass: hashed, promo: !!promo, created: Date.now() };
   writeUsers(users);
-  sendWelcomeEmail(name, key);
+  await sendWelcomeEmail(name, key);await sendWelcomeEmail(name, key); 
   const user = { email: key, name, promo: !!promo };
   const token = jwt.sign(user, JWT_SECRET, { expiresIn: '30d' });
   res.json({ token, user });

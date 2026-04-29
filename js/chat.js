@@ -25,7 +25,11 @@ async function sendChat() {
   document.getElementById('cMsgs').scrollTop = 9999;
 
   try {
-    const res = await fetch('http://localhost:3001/api/chat', {
+    const API_CHAT = location.hostname === 'localhost'
+  ? 'http://localhost:10000'
+  : 'https://alma-mendocina-1.onrender.com';
+
+const res = await fetch(API_CHAT + '/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: chatHistory }),
