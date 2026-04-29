@@ -17,16 +17,8 @@ const EXP_FILE = path.join(__dirname, 'experiencias.json');
 app.use(cors());
 app.use(express.json());
 
-const mailer = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  family: 4,        // ← forzar IPv4
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS
-  }
-});
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 function readUsers() {
   try { return JSON.parse(fs.readFileSync(USERS_FILE, 'utf8')); } catch(e) { return {}; }
